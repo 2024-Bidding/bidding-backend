@@ -15,8 +15,8 @@ class Item(
     val name: String,
 
     @field:NotNull
-    @Column(columnDefinition = "VARCHAR(10)")
-    val startPrice: String,
+    @Column(columnDefinition = "BIGINT")
+    val startPrice: Long,
 
     @field:NotNull
     @Column(columnDefinition = "BIGINT")
@@ -36,4 +36,15 @@ class Item(
     @field:NotNull
     @Column(columnDefinition = "BIGINT")
     val currentPrice: Long,
+
+    @field:NotNull
+    @Column(columnDefinition = "VARCHAR(20)")
+    @Enumerated(EnumType.STRING)
+    val biddingStatus: BiddingStatus,
 )
+
+enum class BiddingStatus {
+    BEFORE_BIDDING,
+    IN_BIDDING,
+    AFTER_BIDDING,
+}
