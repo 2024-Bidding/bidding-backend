@@ -21,12 +21,12 @@ class UserController(
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/signUp")
+    @PostMapping("/signup")
     fun signUp(@RequestBody @Valid request: CreateUserRequest) {
         createUserService.execute(request)
     }
 
-    @PostMapping("/signIn")
+    @PostMapping("/login")
     fun signIn(@RequestBody @Valid request: SignInRequest): SignInResponse {
         return signInService.execute(request)
     }
