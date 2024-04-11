@@ -42,9 +42,3 @@ class Item(
     @Enumerated(EnumType.STRING)
     val biddingStatus: BiddingStatus,
 )
-
-enum class BiddingStatus {
-    BEFORE_BIDDING,
-    IN_BIDDING,
-    AFTER_BIDDING,
-}
