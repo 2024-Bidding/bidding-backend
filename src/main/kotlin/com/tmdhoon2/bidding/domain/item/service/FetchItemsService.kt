@@ -11,6 +11,6 @@ class FetchItemsService(
 ) {
     @Transactional
     fun execute(): List<Item> {
-        return itemsRepository.findAllBy()
+        return itemsRepository.findAll()
     }
 }
