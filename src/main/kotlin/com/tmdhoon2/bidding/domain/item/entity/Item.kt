@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 class Item(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0,
 
     @field:NotNull
     @Column(columnDefinition = "VARCHAR(30)")
@@ -42,9 +42,3 @@ class Item(
     @Enumerated(EnumType.STRING)
     val biddingStatus: BiddingStatus,
 )
-
-enum class BiddingStatus {
-    BEFORE_BIDDING,
-    IN_BIDDING,
-    AFTER_BIDDING,
-}
