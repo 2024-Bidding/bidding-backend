@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull
 import java.time.LocalDateTime
 
 @Entity
-class Item(
+data class Item(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
