@@ -24,7 +24,6 @@ class SecurityConfig(
     protected fun filterChain(http: HttpSecurity): SecurityFilterChain {
         return http
             .formLogin { it.disable() }
-            .formLogin { it.disable() }
             .csrf { it.disable() }
             .cors {}
             .sessionManagement {
