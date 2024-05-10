@@ -26,6 +26,9 @@ class User(
     @field:NotNull
     @Column(columnDefinition = "CHAR(60)")
     val password: String,
+
+    @Column(columnDefinition = "VARCHAR(255)")
+    val profileImageUrl: String,
 ) : JwtUser(email) {
 
     override fun getUsername(): String = email
