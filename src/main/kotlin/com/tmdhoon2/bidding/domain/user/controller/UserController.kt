@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping
 class UserController(
     private val createUserService: CreateUserService,
     private val signInService: SignInService,
-    private val currentUserService: CurrentUserService<User>
+    private val currentUserService: CurrentUserService<User>,
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)

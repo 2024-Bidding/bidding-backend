@@ -1,6 +1,7 @@
 package com.tmdhoon2.bidding.domain.item.service
 
 import com.tmdhoon2.bidding.domain.item.controller.dto.request.BidItemRequest
+import com.tmdhoon2.bidding.domain.item.entity.BiddingStatus
 import com.tmdhoon2.bidding.domain.item.entity.repository.ItemsRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
@@ -19,15 +20,20 @@ class BidItemService(
     @Transactional
     operator fun invoke(
         itemId: Long,
+        userId: Long,
         request: BidItemRequest,
     ): Int {
         val item = itemsRepository.findByIdOrNull(itemId)
             ?: throw RuntimeException()
 
-        val updateItem = {
+        val updateItem: (Boolean) -> Unit = { isSuccessfulBid ->
+            val (userId, biddingStatus) = if (isSuccessfulBid) userId to BiddingStatus.AFTER_BIDDING
+            else null to item.biddingStatus
             itemsRepository.save(
                 item.copy(
                     currentPrice = request.price,
+                    userId = userId,
+                    biddingStatus = biddingStatus
                 )
             )
         }
@@ -38,12 +44,12 @@ class BidItemService(
             }
 
             item.endPrice -> {
-                updateItem()
+                updateItem(true)
                 NO_CONTENT
             }
 
             else -> {
-                updateItem()
+                updateItem(false)
                 SUCCESS
             }
         }
