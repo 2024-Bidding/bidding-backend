@@ -1,13 +1,12 @@
 package com.tmdhoon2.bidding.domain.item.controller
 
+import com.gil.easyjwt.user.CurrentUserService
 import com.tmdhoon2.bidding.domain.item.controller.dto.request.BidItemRequest
 import com.tmdhoon2.bidding.domain.item.controller.dto.request.CreateItemRequest
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemDetailsResponse
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemsResponse
-import com.tmdhoon2.bidding.domain.item.service.BidItemService
-import com.tmdhoon2.bidding.domain.item.service.CreateItemService
-import com.tmdhoon2.bidding.domain.item.service.FetchItemsService
-import com.tmdhoon2.bidding.domain.item.service.QueryItemService
+import com.tmdhoon2.bidding.domain.item.service.*
+import com.tmdhoon2.bidding.domain.user.entity.User
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,6 +19,8 @@ class ItemsController(
     private val createItemService: CreateItemService,
     private val queryItemService: QueryItemService,
     private val bidItemService: BidItemService,
+    private val queryUserBidItemsService: QueryUserBidItemsService,
+    private val currentUserService: CurrentUserService<User>,
 ) {
     @GetMapping
     fun queryItems(): ItemsResponse {
@@ -51,8 +52,10 @@ class ItemsController(
         @PathVariable("item-id") itemId: Long,
         @RequestBody @Valid request: BidItemRequest,
     ): ResponseEntity<Unit> {
+        val userId = currentUserService.currentUser.id
         val responseCode = bidItemService(
             itemId = itemId,
+            userId = userId,
             request = request,
         )
 
@@ -61,5 +64,13 @@ class ItemsController(
             BidItemService.NO_CONTENT -> ResponseEntity(HttpStatus.NO_CONTENT)
             else -> ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+    }
+
+    @GetMapping("/bid/my")
+    fun queryBiddingHistory(): ItemsResponse {
+        val userId = currentUserService.currentUser.id
+        return ItemsResponse(
+            items = queryUserBidItemsService(userId = userId),
+        )
     }
 }
