@@ -1,7 +1,6 @@
 package com.tmdhoon2.bidding.global.exception
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.gil.easyjwt.exception.EasyJwtException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -21,18 +20,20 @@ class ExceptionFilter(
         try {
             filterChain.doFilter(request, response)
         } catch (e: Exception) {
+            println(e.cause.toString())
             when (e.cause) {
                 is CustomException -> {
                     writeErrorResponse(response, (e.cause as CustomException))
+                }
+
+                is ClassCastException -> {
+                    writeErrorResponse(response, ForbiddenException(message = "Expired Token"))
                 }
 
                 is Exception -> {
                     e.printStackTrace()
                     writeErrorResponse(response, InternalServerErrorException())
                 }
-            }
-            if (e is EasyJwtException) {
-                writeErrorResponse(response, ForbiddenException(message = e.message!!))
             }
         }
     }

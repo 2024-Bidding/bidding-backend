@@ -10,6 +10,9 @@ data class Item(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
+    @Column(columnDefinition = "BIGINT")
+    val userId: Long?,
+
     @field:NotNull
     @Column(columnDefinition = "VARCHAR(30)")
     val name: String,
@@ -41,4 +44,12 @@ data class Item(
     @Column(columnDefinition = "VARCHAR(20)")
     @Enumerated(EnumType.STRING)
     val biddingStatus: BiddingStatus,
+
+    @field:NotNull
+    @Column(columnDefinition = "VARCHAR(20)")
+    val userName: String,
+
+    @field:NotNull
+    @Column(columnDefinition = "VARCHAR(255)")
+    val userProfileImageUrl: String,
 )

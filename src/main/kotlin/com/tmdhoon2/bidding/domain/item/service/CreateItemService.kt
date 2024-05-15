@@ -1,9 +1,11 @@
 package com.tmdhoon2.bidding.domain.item.service
 
+import com.gil.easyjwt.user.CurrentUserService
 import com.tmdhoon2.bidding.domain.item.controller.dto.request.CreateItemRequest
 import com.tmdhoon2.bidding.domain.item.entity.BiddingStatus
 import com.tmdhoon2.bidding.domain.item.entity.Item
 import com.tmdhoon2.bidding.domain.item.entity.repository.ItemsRepository
+import com.tmdhoon2.bidding.domain.user.entity.User
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -11,9 +13,11 @@ import java.time.LocalDateTime
 @Service
 class CreateItemService(
     private val itemsRepository: ItemsRepository,
+    private val currentUserService: CurrentUserService<User>,
 ) {
     @Transactional
     operator fun invoke(request: CreateItemRequest) {
+        val user = currentUserService.currentUser
         itemsRepository.save(
             request.run {
                 Item(
@@ -28,6 +32,9 @@ class CreateItemService(
                     startTime = startTime,
                     endTime = endTime,
                     currentPrice = startPrice,
+                    userId = null,
+                    userName = user.name,
+                    userProfileImageUrl = user.profileImageUrl,
                 )
             },
         )
