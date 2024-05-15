@@ -24,7 +24,19 @@ class ItemsController(
 ) {
     @GetMapping
     fun queryItems(): ItemsResponse {
-        return ItemsResponse(items = queryItemsService.execute())
+        return ItemsResponse(
+            items = queryItemsService.execute().map {
+                ItemsResponse.ItemResponse(
+                    id = it.id,
+                    name = it.name,
+                    imageUrl = it.imageUrl,
+                    endTime = it.endTime,
+                    currentPrice = it.currentPrice,
+                    userName = it.userName,
+                    userProfileUrl = it.userProfileImageUrl,
+                )
+            },
+        )
     }
 
     @PostMapping
@@ -68,9 +80,19 @@ class ItemsController(
 
     @GetMapping("/bid/my")
     fun queryBiddingHistory(): ItemsResponse {
-        val userId = currentUserService.currentUser.id
+        val user = currentUserService.currentUser
         return ItemsResponse(
-            items = queryUserBidItemsService(userId = userId),
+            items = queryUserBidItemsService(userId = user.id).map {
+                ItemsResponse.ItemResponse(
+                    id = it.id,
+                    name = it.name,
+                    imageUrl = it.imageUrl,
+                    endTime = it.endTime,
+                    currentPrice = it.currentPrice,
+                    userName = it.userName,
+                    userProfileUrl = it.userProfileImageUrl,
+                )
+            },
         )
     }
 }
