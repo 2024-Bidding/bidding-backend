@@ -12,9 +12,10 @@ class BidItemService(
     private val itemsRepository: ItemsRepository,
 ) {
     companion object {
-        const val BAD_REQUEST = 400
         const val SUCCESS = 200
         const val NO_CONTENT = 204
+        const val BAD_REQUEST = 400
+        const val NOT_FOUND = 404
     }
 
     @Transactional
@@ -23,8 +24,7 @@ class BidItemService(
         userId: Long,
         request: BidItemRequest,
     ): Int {
-        val item = itemsRepository.findByIdOrNull(itemId)
-            ?: throw RuntimeException()
+        val item = itemsRepository.findByIdOrNull(itemId) ?: return NOT_FOUND
 
         val updateItem: (Boolean) -> Unit = { isSuccessfulBid ->
             val (userId, biddingStatus) = if (isSuccessfulBid) userId to BiddingStatus.AFTER_BIDDING

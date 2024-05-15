@@ -74,6 +74,7 @@ class ItemsController(
         return when (responseCode) {
             BidItemService.SUCCESS -> ResponseEntity(HttpStatus.OK)
             BidItemService.NO_CONTENT -> ResponseEntity(HttpStatus.NO_CONTENT)
+            BidItemService.NOT_FOUND -> ResponseEntity(HttpStatus.NOT_FOUND)
             else -> ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
