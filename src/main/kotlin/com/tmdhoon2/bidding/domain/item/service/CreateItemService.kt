@@ -17,6 +17,7 @@ class CreateItemService(
 ) {
     @Transactional
     operator fun invoke(request: CreateItemRequest) {
+        val user = currentUserService.currentUser
         itemsRepository.save(
             request.run {
                 Item(
@@ -32,7 +33,8 @@ class CreateItemService(
                     endTime = endTime,
                     currentPrice = startPrice,
                     userId = null,
-                    userName = currentUserService.currentUser.name,
+                    userName = user.name,
+                    userProfileImageUrl = user.profileImageUrl,
                 )
             },
         )
