@@ -52,4 +52,8 @@ data class Item(
     @field:NotNull
     @Column(columnDefinition = "VARCHAR(255)")
     val userProfileImageUrl: String,
+
+    @field:NotNull
+    @Column(columnDefinition = "VARCHAR(255)")
+    val content: String,
 )

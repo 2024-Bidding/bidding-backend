@@ -22,5 +22,8 @@ data class CreateItemRequest(
     val startTime: LocalDateTime,
 
     @field:NotNull
-    val endTime: LocalDateTime
+    val endTime: LocalDateTime,
+
+    @field:NotNull
+    val content: String,
 )

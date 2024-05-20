@@ -55,6 +55,8 @@ class ItemsController(
                 startTime = this.startTime.toString(),
                 endTime = this.endTime.toString(),
                 biddingStatus = this.biddingStatus,
+                userName = this.userName,
+                content = this.content,
             )
         }
     }
