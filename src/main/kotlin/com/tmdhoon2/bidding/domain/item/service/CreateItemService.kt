@@ -35,6 +35,7 @@ class CreateItemService(
                     userId = null,
                     userName = user.name,
                     userProfileImageUrl = user.profileImageUrl,
+                    content = content,
                 )
             },
         )

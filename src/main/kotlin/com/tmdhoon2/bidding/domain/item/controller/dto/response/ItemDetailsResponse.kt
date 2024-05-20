@@ -10,4 +10,6 @@ data class ItemDetailsResponse(
     val startTime: String,
     val endTime: String,
     val biddingStatus: BiddingStatus,
+    val userName: String,
+    val content: String,
 )
