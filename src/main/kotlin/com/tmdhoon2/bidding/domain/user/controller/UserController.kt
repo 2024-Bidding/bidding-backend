@@ -11,12 +11,12 @@ import com.tmdhoon2.bidding.domain.user.service.CreateUserService
 import com.tmdhoon2.bidding.domain.user.service.SignInService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.GetMapping
 
 @RequestMapping("/users")
 @RestController
@@ -34,7 +34,6 @@ class UserController(
 
     @PostMapping("/login")
     fun signIn(@RequestBody @Valid request: SignInRequest): SignInResponse {
-        println(request)
         return signInService.execute(request)
     }
 
