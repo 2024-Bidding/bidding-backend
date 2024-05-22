@@ -1,5 +1,6 @@
 package com.tmdhoon2.bidding.domain.item.controller.dto.response
 
+import com.tmdhoon2.bidding.domain.item.entity.Item
 import java.time.LocalDateTime
 
 data class ItemsResponse(
@@ -15,3 +16,17 @@ data class ItemsResponse(
         val userProfileUrl: String,
     )
 }
+
+fun List<Item>.toItemsResponse() = ItemsResponse(
+    items = map { it.toItemResponse() }
+)
+
+fun Item.toItemResponse() = ItemsResponse.ItemResponse(
+    id = this.id,
+    name = this.name,
+    imageUrl = this.imageUrl,
+    endTime = this.endTime,
+    currentPrice = this.currentPrice,
+    userName = this.user.name,
+    userProfileUrl = this.user.profileImageUrl,
+)
