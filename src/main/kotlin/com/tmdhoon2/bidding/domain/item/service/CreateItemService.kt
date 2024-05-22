@@ -4,6 +4,8 @@ import com.gil.easyjwt.user.CurrentUserService
 import com.tmdhoon2.bidding.domain.item.controller.dto.request.CreateItemRequest
 import com.tmdhoon2.bidding.domain.item.entity.BiddingStatus
 import com.tmdhoon2.bidding.domain.item.entity.Item
+import com.tmdhoon2.bidding.domain.item.entity.ItemImage
+import com.tmdhoon2.bidding.domain.item.entity.repository.ItemImageRepository
 import com.tmdhoon2.bidding.domain.item.entity.repository.ItemsRepository
 import com.tmdhoon2.bidding.domain.user.entity.User
 import jakarta.transaction.Transactional
@@ -13,31 +15,38 @@ import java.time.LocalDateTime
 @Service
 class CreateItemService(
     private val itemsRepository: ItemsRepository,
+    private val itemImageRepository: ItemImageRepository,
     private val currentUserService: CurrentUserService<User>,
 ) {
     @Transactional
     operator fun invoke(request: CreateItemRequest) {
         val user = currentUserService.currentUser
-        itemsRepository.save(
+        val item = itemsRepository.save(
             request.run {
                 Item(
                     name = name,
                     startPrice = startPrice,
                     endPrice = endPrice,
-                    imageUrl = imageUrl.first(),
+                    startTime = startTime,
+                    endTime = endTime,
+                    currentPrice = startPrice,
                     biddingStatus = calculateBiddingStatus(
                         startDate = startTime,
                         endDate = endTime,
                     ),
-                    startTime = startTime,
-                    endTime = endTime,
-                    currentPrice = startPrice,
-                    userId = null,
-                    userName = user.name,
-                    userProfileImageUrl = user.profileImageUrl,
                     content = content,
+                    user = user,
+                    imageUrl = request.imageUrls.first(),
                 )
             },
+        )
+        itemImageRepository.saveAll(
+            request.imageUrls.map {
+                ItemImage(
+                    imageUrl = it,
+                    item = item,
+                )
+            }
         )
     }
 
