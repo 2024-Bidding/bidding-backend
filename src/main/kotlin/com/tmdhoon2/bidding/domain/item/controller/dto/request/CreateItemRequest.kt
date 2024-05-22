@@ -16,7 +16,7 @@ data class CreateItemRequest(
     val startPrice: Long,
 
     @field:NotNull
-    val imageUrl: List<String>,
+    val imageUrls: List<String>,
 
     @field:NotNull
     val startTime: LocalDateTime,
