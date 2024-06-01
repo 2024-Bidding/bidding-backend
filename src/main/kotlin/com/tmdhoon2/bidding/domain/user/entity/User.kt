@@ -20,7 +20,7 @@ class User(
     val email: String,
 
     @field:NotNull
-    @Column(columnDefinition = "VARCHAR(10)")
+    @Column(columnDefinition = "VARCHAR(30)")
     val name: String,
 
     @field:NotNull
