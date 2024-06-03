@@ -1,6 +1,7 @@
 package com.tmdhoon2.bidding.domain.item.service
 
 import com.tmdhoon2.bidding.domain.item.controller.dto.request.BidItemRequest
+import com.tmdhoon2.bidding.domain.item.entity.BiddingStatus
 import com.tmdhoon2.bidding.domain.item.entity.repository.ItemsRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
@@ -24,11 +25,27 @@ class BidItemService(
         request: BidItemRequest,
     ): Int {
         val item = itemsRepository.findByIdOrNull(itemId) ?: return NOT_FOUND
+        val updatePrice = { isEnd: Boolean ->
+            itemsRepository.save(
+                item.copy(
+                    currentPrice = request.price,
+                    biddingStatus = if (isEnd) BiddingStatus.AFTER_BIDDING
+                    else item.biddingStatus,
+                )
+            )
+        }
 
         return when (request.price) {
             !in item.currentPrice + 1..item.endPrice -> BAD_REQUEST
-            item.endPrice -> NO_CONTENT
-            else -> SUCCESS
+            item.endPrice -> {
+                updatePrice(false)
+                NO_CONTENT
+            }
+
+            else -> {
+                updatePrice(true)
+                SUCCESS
+            }
         }
     }
 }
