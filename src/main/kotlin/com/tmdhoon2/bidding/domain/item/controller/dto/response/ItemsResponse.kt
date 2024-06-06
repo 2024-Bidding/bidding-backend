@@ -14,6 +14,7 @@ data class ItemsResponse(
         val currentPrice: Long,
         val userName: String,
         val userProfileUrl: String,
+        val isLiked: Boolean,
     )
 }
 
@@ -29,4 +30,5 @@ fun Item.toItemResponse() = ItemsResponse.ItemResponse(
     currentPrice = this.currentPrice,
     userName = this.user.name,
     userProfileUrl = this.user.profileImageUrl,
+    isLiked = this.isLiked,
 )

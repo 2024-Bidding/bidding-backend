@@ -23,6 +23,7 @@ class QueryBiddingHistoryService(
                         currentPrice = currentPrice,
                         userName = user.name,
                         userProfileUrl = user.profileImageUrl,
+                        isLiked = false,
                     )
                 }
             }

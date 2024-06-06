@@ -22,6 +22,7 @@ class QueryMyBidItemsService(
                     currentPrice = currentPrice,
                     userName = user.name,
                     userProfileUrl = user.profileImageUrl,
+                    isLiked = isLiked,
                 )
             }
         }

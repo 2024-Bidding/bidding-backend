@@ -60,4 +60,7 @@ data class Item(
     @field:NotNull
     @Column(columnDefinition = "VARCHAR(255)")
     val imageUrl: String,
+
+    @field:NotNull
+    val isLiked: Boolean,
 )

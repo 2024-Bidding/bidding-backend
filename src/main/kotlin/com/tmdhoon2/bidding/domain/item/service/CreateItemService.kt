@@ -37,6 +37,7 @@ class CreateItemService(
                     content = content,
                     user = user,
                     imageUrl = request.imageUrls.first(),
+                    isLiked = false,
                 )
             },
         )

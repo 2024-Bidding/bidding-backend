@@ -20,6 +20,7 @@ class QueryMyItemsService(
                 currentPrice = it.currentPrice,
                 userName = it.user.name,
                 userProfileUrl = it.user.profileImageUrl,
+                isLiked = false,
             )
         }
 
