@@ -1,11 +1,14 @@
 package com.tmdhoon2.bidding.domain.item.controller
 
+import com.gil.easyjwt.user.CurrentUserService
 import com.tmdhoon2.bidding.domain.item.controller.dto.request.CreateItemRequest
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemDetailsResponse
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemsResponse
 import com.tmdhoon2.bidding.domain.item.service.CreateItemService
 import com.tmdhoon2.bidding.domain.item.service.QueryItemDetailsService
 import com.tmdhoon2.bidding.domain.item.service.QueryItemsService
+import com.tmdhoon2.bidding.domain.item.service.QueryMyItemsService
+import com.tmdhoon2.bidding.domain.user.entity.User
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -20,6 +23,8 @@ class ItemController(
     private val queryItemsService: QueryItemsService,
     private val createItemService: CreateItemService,
     private val queryItemDetailsService: QueryItemDetailsService,
+    private val queryMyItemsService: QueryMyItemsService,
+    private val currentUserService: CurrentUserService<User>,
 ) {
     @GetMapping
     fun queryItems(): ItemsResponse {
@@ -34,5 +39,11 @@ class ItemController(
     @GetMapping("/{item-id}")
     fun queryItemDetails(@PathVariable("item-id") itemId: Long): ItemDetailsResponse {
         return queryItemDetailsService.execute(itemId = itemId)
+    }
+
+    @GetMapping("/my")
+    fun queryMyItems(): ItemsResponse {
+        val userId = currentUserService.currentUser.id
+        return queryMyItemsService.execute(userId)
     }
 }

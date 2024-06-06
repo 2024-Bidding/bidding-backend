@@ -3,7 +3,7 @@ package com.tmdhoon2.bidding.domain.bidding.controller
 import com.gil.easyjwt.user.CurrentUserService
 import com.tmdhoon2.bidding.domain.bidding.controller.dto.request.BidItemRequest
 import com.tmdhoon2.bidding.domain.bidding.service.BidItemService
-import com.tmdhoon2.bidding.domain.bidding.service.QueryBiddingHistoryService
+import com.tmdhoon2.bidding.domain.bidding.service.QueryMyBidItemsService
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemsResponse
 import com.tmdhoon2.bidding.domain.user.entity.User
 import jakarta.validation.Valid
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 class BidController(
     private val bidItemService: BidItemService,
-    private val queryBiddingHistoryService: QueryBiddingHistoryService,
+    private val queryMyBidItemsService: QueryMyBidItemsService,
     private val currentUserService: CurrentUserService<User>,
 ) {
     @PatchMapping("/{item-id}")
@@ -44,8 +44,8 @@ class BidController(
     }
 
     @GetMapping("/my")
-    fun queryBiddingHistory(): ItemsResponse {
+    fun queryMyBidItems(): ItemsResponse {
         val userId = currentUserService.currentUser.id
-        return queryBiddingHistoryService.execute(userId)
+        return queryMyBidItemsService.execute(userId)
     }
 }
