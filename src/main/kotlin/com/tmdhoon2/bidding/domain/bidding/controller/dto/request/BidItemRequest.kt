@@ -1,4 +1,4 @@
-package com.tmdhoon2.bidding.domain.item.controller.dto.request
+package com.tmdhoon2.bidding.domain.bidding.controller.dto.request
 
 import org.jetbrains.annotations.NotNull
 

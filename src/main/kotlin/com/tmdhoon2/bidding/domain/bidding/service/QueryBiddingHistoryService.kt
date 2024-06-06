@@ -1,9 +1,10 @@
-package com.tmdhoon2.bidding.domain.item.service
+package com.tmdhoon2.bidding.domain.bidding.service
 
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemsResponse
 import com.tmdhoon2.bidding.domain.item.entity.repository.ItemsRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import kotlin.collections.map
 
 @Service
 class QueryBiddingHistoryService(

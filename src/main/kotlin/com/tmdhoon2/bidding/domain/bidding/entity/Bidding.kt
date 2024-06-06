@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull
 class Bidding(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0,
 
     @field:NotNull
     @Column(columnDefinition = "BIGINT")
