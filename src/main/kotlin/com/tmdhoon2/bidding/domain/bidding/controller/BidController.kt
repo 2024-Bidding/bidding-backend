@@ -44,8 +44,9 @@ class BidController(
     }
 
     @GetMapping("/my")
-    fun queryMyBidItems(): ItemsResponse {
+    fun queryMyBidItems(): ResponseEntity<ItemsResponse> {
         val userId = currentUserService.currentUser.id
-        return queryMyBidItemsService.execute(userId)
+        val body = queryMyBidItemsService.execute(userId = userId)
+        return ResponseEntity(body, HttpStatus.OK)
     }
 }
