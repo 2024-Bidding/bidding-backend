@@ -5,12 +5,14 @@ import com.tmdhoon2.bidding.domain.item.controller.dto.request.CreateItemRequest
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemDetailsResponse
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemsResponse
 import com.tmdhoon2.bidding.domain.item.service.CreateItemService
+import com.tmdhoon2.bidding.domain.item.service.LikeItemService
 import com.tmdhoon2.bidding.domain.item.service.QueryItemDetailsService
 import com.tmdhoon2.bidding.domain.item.service.QueryItemsService
 import com.tmdhoon2.bidding.domain.item.service.QueryMyItemsService
 import com.tmdhoon2.bidding.domain.user.entity.User
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,10 +27,12 @@ class ItemController(
     private val queryItemDetailsService: QueryItemDetailsService,
     private val queryMyItemsService: QueryMyItemsService,
     private val currentUserService: CurrentUserService<User>,
+    private val likeItemService: LikeItemService,
 ) {
     @GetMapping
     fun queryItems(): ItemsResponse {
-        return queryItemsService.execute()
+        val userId = currentUserService.currentUser.id
+        return queryItemsService.execute(userId)
     }
 
     @PostMapping
@@ -45,5 +49,14 @@ class ItemController(
     fun queryMyItems(): ItemsResponse {
         val userId = currentUserService.currentUser.id
         return queryMyItemsService.execute(userId)
+    }
+
+    @PatchMapping("/like/{item-id}")
+    fun likeItem(@PathVariable("item-id") itemId: Long) {
+        val userId = currentUserService.currentUser.id
+        return likeItemService.execute(
+            userId = userId,
+            itemId = itemId,
+        )
     }
 }

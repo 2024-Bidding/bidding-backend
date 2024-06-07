@@ -18,11 +18,17 @@ data class ItemsResponse(
     )
 }
 
-fun List<Item>.toItemsResponse() = ItemsResponse(
-    items = map { it.toItemResponse() }
+fun List<Item>.toItemsResponse(likes: Map<Long, Boolean>) = ItemsResponse(
+    items = map {
+        val isLiked = likes.getOrDefault(
+            key = it.id,
+            defaultValue = false,
+        )
+        it.toItemResponse(isLiked)
+    }
 )
 
-fun Item.toItemResponse() = ItemsResponse.ItemResponse(
+fun Item.toItemResponse(isLiked: Boolean) = ItemsResponse.ItemResponse(
     id = this.id,
     name = this.name,
     imageUrl = this.imageUrl,
@@ -30,5 +36,5 @@ fun Item.toItemResponse() = ItemsResponse.ItemResponse(
     currentPrice = this.currentPrice,
     userName = this.user.name,
     userProfileUrl = this.user.profileImageUrl,
-    isLiked = this.isLiked,
+    isLiked = isLiked,
 )
