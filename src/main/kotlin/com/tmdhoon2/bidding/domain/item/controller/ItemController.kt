@@ -9,6 +9,7 @@ import com.tmdhoon2.bidding.domain.item.service.LikeItemService
 import com.tmdhoon2.bidding.domain.item.service.QueryItemDetailsService
 import com.tmdhoon2.bidding.domain.item.service.QueryItemsService
 import com.tmdhoon2.bidding.domain.item.service.QueryMyItemsService
+import com.tmdhoon2.bidding.domain.item.service.QueryMyLikeItemsService
 import com.tmdhoon2.bidding.domain.user.entity.User
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -28,6 +29,7 @@ class ItemController(
     private val queryMyItemsService: QueryMyItemsService,
     private val currentUserService: CurrentUserService<User>,
     private val likeItemService: LikeItemService,
+    private val queryMyLikeItemsService: QueryMyLikeItemsService,
 ) {
     @GetMapping
     fun queryItems(): ItemsResponse {
@@ -58,5 +60,11 @@ class ItemController(
             userId = userId,
             itemId = itemId,
         )
+    }
+
+    @GetMapping("/likes")
+    fun queryMyLikeItems(): ItemsResponse {
+        val userId = currentUserService.currentUser.id
+        return queryMyLikeItemsService.execute(userId = userId)
     }
 }

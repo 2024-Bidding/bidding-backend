@@ -26,3 +26,7 @@ data class Likes(
     @JoinColumn(name = "user_id")
     val user: User,
 )
+
+fun List<Likes>.toUserLikesMap(): Map<Long, Boolean> {
+    return map { it.item.id to true }.toMap()
+}
