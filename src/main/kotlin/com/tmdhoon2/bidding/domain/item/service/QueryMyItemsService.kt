@@ -2,14 +2,14 @@ package com.tmdhoon2.bidding.domain.item.service
 
 import com.tmdhoon2.bidding.domain.item.controller.dto.response.ItemsResponse
 import com.tmdhoon2.bidding.domain.item.entity.repository.ItemsRepository
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class QueryMyItemsService(
     private val itemsRepository: ItemsRepository,
 ) {
-    @Transactional
+    @Transactional(readOnly = true)
     fun execute(userId: Long): ItemsResponse {
         val items = itemsRepository.findAllByUserId(userId).map {
             ItemsResponse.ItemResponse(

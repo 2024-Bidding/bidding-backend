@@ -6,15 +6,15 @@ import com.tmdhoon2.bidding.domain.item.entity.BiddingStatus
 import com.tmdhoon2.bidding.domain.item.entity.repository.ItemsRepository
 import com.tmdhoon2.bidding.domain.item.entity.repository.LikesRepository
 import com.tmdhoon2.bidding.domain.item.entity.toUserLikesMap
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class QueryItemsService(
     private val itemsRepository: ItemsRepository,
     private val likesRepository: LikesRepository,
 ) {
-    @Transactional
+    @Transactional(readOnly = false)
     fun execute(userId: Long): ItemsResponse {
         val items = itemsRepository.findAll()
         val likes = likesRepository.findAllByUserId(userId).toUserLikesMap()
