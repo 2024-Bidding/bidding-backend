@@ -15,9 +15,15 @@ class QueryItemDetailsService(
     private val itemImageRepository: ItemImageRepository,
 ) {
     @Transactional(readOnly = true)
-    fun execute(itemId: Long): ItemDetailsResponse {
+    fun execute(
+        itemId: Long,
+        userId: Long,
+    ): ItemDetailsResponse {
         val item = itemsRepository.findByIdOrNull(itemId) ?: throw NotFoundException(message = "not found item")
         val itemImages = itemImageRepository.findAllByItemId(itemId)
-        return item.toItemDetailsResponse(imageUrls = itemImages.map { it.imageUrl })
+        return item.toItemDetailsResponse(
+            imageUrls = itemImages.map { it.imageUrl },
+            userId = userId,
+        )
     }
 }

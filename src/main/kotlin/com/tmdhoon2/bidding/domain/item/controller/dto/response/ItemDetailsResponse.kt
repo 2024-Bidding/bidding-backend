@@ -13,9 +13,13 @@ data class ItemDetailsResponse(
     val biddingStatus: BiddingStatus,
     val userName: String,
     val content: String,
+    val biddingAvailable: Boolean,
 )
 
-fun Item.toItemDetailsResponse(imageUrls: List<String>) = ItemDetailsResponse(
+fun Item.toItemDetailsResponse(
+    imageUrls: List<String>,
+    userId: Long,
+) = ItemDetailsResponse(
     name = this.name,
     currentPrice = this.currentPrice,
     maxPrice = this.endPrice,
@@ -25,4 +29,5 @@ fun Item.toItemDetailsResponse(imageUrls: List<String>) = ItemDetailsResponse(
     biddingStatus = biddingStatus,
     userName = user.name,
     content = this.content,
+    biddingAvailable = this.user.id != userId,
 )
